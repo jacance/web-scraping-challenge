@@ -6,6 +6,14 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import pymongo
+
+import requests
+
+conn = "mongodb://localhost:27017"
+client = pymongo.MongoClient(conn)
+
+db = client.mars_db
 
 def init_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -25,7 +33,7 @@ def scrape_info():
     mars_dict["news_title"] = soup.find('div',class_='content_title').text
     mars_dict["news_p"] = soup.find('div',class_='rollover_description_inner').text
 
-    browser.quit()
+
 
     # Second website to scrape for image
     url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
@@ -45,7 +53,7 @@ def scrape_info():
         mars_dict["featured_image_url"] = f"https://www.jpl.nasa.gov{image_url}"
     
 
-    browser.quit()
+
     
     # Third website to scrape for image url and title of the 4 hemispheres
     mars_url = "https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced"
@@ -72,6 +80,11 @@ def scrape_info():
             mars_dict[f'{hemisphere}_img_url'] = 'https://astrogeology.usgs.gov' + img_url
 
             
+    db.mars_info.insert_one(mars_dict)
 
+    browser.quit()  
 
     return mars_dict
+    
+    # collection name
+    

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -13,29 +14,29 @@
         </div>
     </div>
     <div class="container">
-        <h2>Latest Mars News</h2>
-        <p><b>{{ mars_all.news_title }}</b></p><br>
-        <p>{{ mars_all.news_p }}</p>
+        <h2>Latest Mars News</h2><br>
+        <p><b>{{ mars_all.news_title }}</b><br>
+        {{ mars_all.news_p }}</p>
     </div>
 
     <div class="row">
       <div class="col" id="featured">
         <h2>Featured Mars Image</h2>
-        {{ mars_all.featured_image_url }}
+        <img src="{{ mars_all.featured_image_url }}">
       </div>
       <div class="col-sm-4" id="marsfacts">
-        <p><b>Mars Facts</b></p>
+        <p style="font-size: 18px; text-align: center"><b>Mars Facts</b></p>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
               <tr style="text-align: right;">
-                <th></th>
-                <th>Mars</th>
-              </tr>
+                <!-- <th></th>
+                <th>Mars</th> -->
+              <!-- </tr>
               <tr>
                 <th></th>
                 <th></th>
-              </tr>
+              </tr> -->
             </thead>
             <tbody>
               <tr>
@@ -80,25 +81,23 @@
       </div>
 
     <div class="container" id="hemispheres">
-      <h2>Mars hemispheres</h2>
-      <div class="row">
+      <h2 style="text-align: center">Mars hemispheres</h2>
+
+
+      <div class="row row-cols-2">
+        <div class="col" id="hemisphere">
+          {{ mars_all["valles_marineris_title"] }}<br>
+          <img src="{{ mars_all["valles_marineris_img_url"] }}"></div>
         <div class="col">
-          {{ mars_all.mars_dict["valles_marineris_title"] }}
-          {{ mars_all.mars_dict["valles_marineris_img_url"] }}
-        </div>
-        <div class="col">Column
-          {{ mars_all.mars_dict["cerberus_title"] }}
-          {{ mars_all.mars_dict["cerberus_img_url"] }}
-        </div>
-        
-        <div class="w-100"></div>
+          {{ mars_all["cerberus_title"] }}<br>
+          <img src="{{ mars_all["cerberus_img_url"] }}"></div>
         <div class="col">
-          {{ mars_all.mars_dict["schiaparelli_title"] }}
-          {{ mars_all.mars_dict["schiaparelli_img_url"] }}
+          {{ mars_all["schiaparelli_title"] }}<br>
+          <img src="{{ mars_all["schiaparelli_img_url"] }}"></div>
         </div>
         <div class="col">
-          {{ mars_all.mars_dict["syrtis_major_title"] }}
-          {{ mars_all.mars_dict["syrtis_major_img_url"] }}
+          {{ mars_all["syrtis_major_title"] }}<br>
+          <img src="{{ mars_all["syrtis_major_img_url"] }}"></div>
         </div>
       </div>
     </div>
