@@ -9,18 +9,19 @@
 <body>
     <div class="container">
         <div class="jumbotron text-center">
-            <h1>{{ text }}</h1>
+            <h1>Mission to Mars</h1>
         </div>
     </div>
     <div class="container">
         <h2>Latest Mars News</h2>
-        <p>{{ news }}</p>
+        <p><b>{{ mars_all.news_title }}</b></p><br>
+        <p>{{ mars_all.news_p }}</p>
     </div>
 
     <div class="row">
       <div class="col" id="featured">
         <h2>Featured Mars Image</h2>
-        {{ featured_image  }}
+        {{ mars_all.featured_image_url }}
       </div>
       <div class="col-sm-4" id="marsfacts">
         <p><b>Mars Facts</b></p>
@@ -81,11 +82,24 @@
     <div class="container" id="hemispheres">
       <h2>Mars hemispheres</h2>
       <div class="row">
-        <div class="col">Column</div>
-        <div class="col">Column</div>
+        <div class="col">
+          {{ mars_all.mars_dict["valles_marineris_title"] }}
+          {{ mars_all.mars_dict["valles_marineris_img_url"] }}
+        </div>
+        <div class="col">Column
+          {{ mars_all.mars_dict["cerberus_title"] }}
+          {{ mars_all.mars_dict["cerberus_img_url"] }}
+        </div>
+        
         <div class="w-100"></div>
-        <div class="col">Column</div>
-        <div class="col">Column</div>
+        <div class="col">
+          {{ mars_all.mars_dict["schiaparelli_title"] }}
+          {{ mars_all.mars_dict["schiaparelli_img_url"] }}
+        </div>
+        <div class="col">
+          {{ mars_all.mars_dict["syrtis_major_title"] }}
+          {{ mars_all.mars_dict["syrtis_major_img_url"] }}
+        </div>
       </div>
     </div>
 

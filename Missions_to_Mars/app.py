@@ -12,7 +12,7 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_info")
 def home():
     mars_data = mongo.db.mars_site.find_one()
     print(mars_data)
-    return render_template("index.html", text= mars_data)
+    return render_template("index.html", mars_all= mars_data)
 
 @app.route("/scrape")
 def scrape():
@@ -22,6 +22,6 @@ def scrape():
     mongo.db.mars_site.update({}, mars_dict, upsert=True)
     # Redirect back to home page
     return redirect("/")
-    
+
 if __name__ == "__main__":
     app.run(debug=True)

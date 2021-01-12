@@ -43,11 +43,35 @@ def scrape_info():
     for result in results:
         image_url = result.a['href']
         mars_dict["featured_image_url"] = f"https://www.jpl.nasa.gov{image_url}"
+    
 
     browser.quit()
-    return mars_dict
+    
     # Third website to scrape for image url and title of the 4 hemispheres
-    # url = "https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced"
-    # browser.visit(url)
-    ## List containing the names of the 4 hemispheres
-    # mars_hemispheres = ['cerberus', 'schiaparelli', 'syrtis_major', 'valles_marineris']
+    mars_url = "https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced"
+
+    # List containing the names of the 4 hemispheres
+    mars_hemispheres = ['cerberus', 'schiaparelli', 'syrtis_major', 'valles_marineris']
+
+    # Parse target url
+    response = requests.get(mars_url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Add hemisphere name and image url to dictionary
+    for hemisphere in mars_hemispheres:
+        mars_url = f'https://astrogeology.usgs.gov/search/map/Mars/Viking/{hemisphere}_enhanced'
+        response = requests.get(mars_url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        results = soup.find_all("img", class_='wide-image')
+        
+        for result in results:
+            img_url = result.get('src')
+            title = soup.find("h2", class_='title').text
+            title = title.replace(' Enhanced',"")
+            mars_dict[f'{hemisphere}_title'] = title
+            mars_dict[f'{hemisphere}_img_url'] = 'https://astrogeology.usgs.gov' + img_url
+
+            
+
+
+    return mars_dict
