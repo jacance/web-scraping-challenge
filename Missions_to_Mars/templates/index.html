@@ -3,40 +3,41 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
+    <!-- Header with scrape new data button -->
     <div class="container">
         <div class="jumbotron text-center">
             <h1>Mission to Mars</h1>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape new data</a></p>
         </div>
     </div>
     <div class="container">
-        <h2>Latest Mars News</h2><br>
-        <p><b>{{ mars_all.news_title }}</b><br>
-        {{ mars_all.news_p }}</p>
-    </div>
+      <div class="row">
+        <!-- Show latest scraped news article headline and description -->
+        <div class="container"><h2>Latest Mars News</h2><br>
+          <p><b>{{ mars_all.news_title }}</b><br>{{ mars_all.news_p }}<br>
+          </p>
+        </div>
+      </div>
+      <br>
 
     <div class="row">
       <div class="col" id="featured">
+        <!-- Scraped featured image -->
         <h2>Featured Mars Image</h2>
-        <img src="{{ mars_all.featured_image_url }}">
+        <img src="{{ mars_all.featured_image_url }}" height=90% width=90%>
       </div>
       <div class="col-sm-4" id="marsfacts">
+        <!-- Table of scraped Mars facts -->
         <p style="font-size: 18px; text-align: center"><b>Mars Facts</b></p>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
               <tr style="text-align: right;">
-                <!-- <th></th>
-                <th>Mars</th> -->
-              <!-- </tr>
-              <tr>
-                <th></th>
-                <th></th>
-              </tr> -->
+
             </thead>
             <tbody>
               <tr>
@@ -79,25 +80,35 @@
           </table>
         </div>
       </div>
-
+      
+    <!-- Scraped Mars hemispheres names and photos -->
     <div class="container" id="hemispheres">
-      <h2 style="text-align: center">Mars hemispheres</h2>
+      <br><br>
+      <h2>Mars hemispheres</h2>
 
 
-      <div class="row row-cols-2">
-        <div class="col" id="hemisphere">
-          {{ mars_all["valles_marineris_title"] }}<br>
-          <img src="{{ mars_all["valles_marineris_img_url"] }}"></div>
-        <div class="col">
-          {{ mars_all["cerberus_title"] }}<br>
-          <img src="{{ mars_all["cerberus_img_url"] }}"></div>
-        <div class="col">
-          {{ mars_all["schiaparelli_title"] }}<br>
-          <img src="{{ mars_all["schiaparelli_img_url"] }}"></div>
+      <div class="row">
+        <div class="col-6 col-sm-4">
+          <img class="center" src="{{ mars_all["valles_marineris_img_url"] }}" height="250px" width="250px"><br>
+          {{ mars_all["valles_marineris_title"] }}
         </div>
-        <div class="col">
-          {{ mars_all["syrtis_major_title"] }}<br>
-          <img src="{{ mars_all["syrtis_major_img_url"] }}"></div>
+        <div class="col-6 col-sm-4">
+          <img src="{{ mars_all["cerberus_img_url"] }}" height="250px" width="250px"><br>
+          {{ mars_all["cerberus_title"] }}
+        </div>
+      
+        <!-- Force next columns to break to new line at md breakpoint and up -->
+        <div class="w-100 d-none d-md-block"></div>
+        <br>
+        <br>
+      
+        <div class="col-6 col-sm-4">
+          <img src="{{ mars_all["schiaparelli_img_url"] }}" height="250px" width="250px"><br>
+          {{ mars_all["schiaparelli_title"] }}
+        </div>
+        <div class="col-6 col-sm-4">
+          <img src="{{ mars_all["syrtis_major_img_url"] }}" height="250px" width="250px"><br>
+          {{ mars_all["syrtis_major_title"] }}
         </div>
       </div>
     </div>
