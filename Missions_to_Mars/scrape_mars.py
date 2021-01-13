@@ -24,37 +24,53 @@ def scrape_info():
     mars_dict = {}   
 
     # First website to scrape for news title and paragraph
-    url = "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
+    url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
 
     html = browser.html
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, 'html.parser')
 
-    mars_dict["news_title"] = soup.find('div',class_='content_title').text
-    mars_dict["news_p"] = soup.find('div',class_='rollover_description_inner').text
+    results = soup.find_all('ul',class_='item_list')
 
+    for result in results:
+        mars_dict["news_title"] = result.find('div',class_='content_title').text
+        mars_dict["news_p"] = result.find('div',class_='article_teaser_body').text
 
+    browser.quit()
 
-    # Second website to scrape for image
-    url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
+    # Second website to scrape for featured image
+    # Navigate to main page of JPL Nasa
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
+    url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(url)
+
+    # Use xpath of navbar to navigate to Featured Image
+    time.sleep(1)
+    xpath = '/html/body/div/div/div/header/div[1]/div[3]/div/nav/div[1]/div[4]/button/span'
+    browser.find_by_xpath(xpath).click()
 
     time.sleep(1)
-    browser.click_link_by_partial_text("FULL IMAGE")
-    browser.click_link_by_partial_text("more info")
+    xpath = '/html/body/div/div/div/header/div[1]/div[3]/div/nav/div[1]/div[4]/div/div/div/div/div[1]/div/div/div/a/p[1]'
+    browser.find_by_xpath(xpath).click()
 
+    time.sleep(1)
+    xpath = '/html/body/div/div/div/main/div/div[2]/div/div/div[2]/button/span'
+    browser.find_by_xpath(xpath).click()
+
+    # Extract featured image using BeautifulSoup
     html = browser.html
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, 'html.parser')
+    results = soup.find_all('div', class_='BaseLightbox__slide__img')
 
-    results = soup.find_all('figure', class_="lede")
     for result in results:
-        image_url = result.a['href']
-        mars_dict["featured_image_url"] = f"https://www.jpl.nasa.gov{image_url}"
-    
+        featured_image_url = result.img['src']
+        mars_dict["featured_image_url"] = featured_image_url
+
+    browser.quit()
 
 
-    
     # Third website to scrape for image url and title of the 4 hemispheres
     mars_url = "https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced"
 
@@ -86,5 +102,4 @@ def scrape_info():
 
     return mars_dict
     
-    # collection name
     
